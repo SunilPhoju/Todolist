@@ -13,16 +13,23 @@
         </div>
         @endif
 
+        @if(session('delete'))
+        <div class="alert alert-danger">
+        {{session('delete')}}
+        </div>
+        @endif
             <div class="card card-default">
                 <div class="card-header">
                     Todos
                 </div>
                 <div class ="card-body">
                     <ul class="list-group">
-                        <li>Task 1</li>
-                        <li>Task 2</li>
-                        <li>Task 3</li>
-                        <li>Task 4</li>
+                        @foreach ($todos as $todo)
+                            <li>{{$todo->title}}</li>
+                            <a href="/todos/{{ $todo->id}}/delete" class = "btn btn-danger my-2">Delete</a>
+                            <a href="/todos/{{ $todo->id}}" class = "btn btn-info my-2">View</a>
+                        @endforeach
+                        
                     </ul>
                 </div>
             </div>

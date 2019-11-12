@@ -13,7 +13,7 @@ class TodoController extends Controller
      */
     public function index()
     {
-        return view('index');
+        return view('index')->with('todos',Todo::all());
     }
 
     /**
@@ -54,9 +54,9 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Todo $todo)
     {
-        //
+        return view('show')->with('todo',$todo);
     }
 
     /**
@@ -88,8 +88,10 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Todo $todo)
     {
-        //
+        $todo->delete();
+        session()->flash('delete',"task deleted successfully.");
+        return redirect('/todos');
     }
 }
