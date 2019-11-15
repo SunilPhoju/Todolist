@@ -65,9 +65,9 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Todo $todo)
     {
-        //
+        return view('edit')->with('todo',$todo);
     }
 
     /**
@@ -77,9 +77,20 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Todo $todo)
     {
-        //
+        $this ->validate(request(),[
+            'title' => 'required',
+            'description' =>'required'
+        ]);
+
+        $data = request()->all();
+       
+        $todo->title = $data['title'];
+        $todo->description = $data['description'];
+        $todo->save();
+        session()->flash('success',"Data update successfully");
+        return redirect('/todos');
     }
 
     /**
